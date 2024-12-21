@@ -34,6 +34,7 @@ class ETLProcessor:
         self.providers['max_sum_usd'] = self.providers['max_sum'] * self.providers['rate']
         self.providers['limit_min_usd'] = self.providers['limit_min'] * self.providers['rate']
         self.providers['limit_max_usd'] = self.providers['limit_max'] * self.providers['rate']
+        self.providers['commission'] *= 0.01
 
         # self.providers.sort_values(by=['timestamp', 'conversion', 'commission'], ascending=[True, False, True], inplace=True)
         self.providers.sort_values(by=['timestamp'], ascending=True, inplace=True)
