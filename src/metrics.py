@@ -156,6 +156,18 @@ class Metrics:
         
         return penalty
     
+    @staticmethod
+    def total_providers_conversion(self, providers: List[Provider], payments: List[Payment]) -> float:
+        ...
+
+    @staticmethod
+    def profit(self, payments: List[Payment]) -> float:
+        return sum([payment.amount_usd - payment.comission for payment in payments])
+
+    @staticmethod
+    def system_uptime(self, providers: List[Provider], payments: List[Payment]) -> float:
+        ...
+    
 
     def total_profit(self, payments: List[Payment], providers: List[Provider]) -> float:
         return self.total_revenue(payments) - self.total_penalty(providers)
@@ -182,4 +194,3 @@ def get_all_metrics(payments: List[Payment], providers_dict: Dict[str, Dict[int,
     print(f'avg_provided_conversion: {metrics.avg_provided_conversion(payments)}')
     print(f'total_penalty: {metrics.total_penalty(providers_list)}')
     print(f'total_profit: {metrics.total_profit(payments, providers_list)}')
-    

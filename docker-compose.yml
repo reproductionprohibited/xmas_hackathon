@@ -1,7 +1,6 @@
-version: '3.8'
-
 services:
   app:
+    container_name: xmas_hackathon_truecoders
     build:
       context: .
       dockerfile: Dockerfile
