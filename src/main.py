@@ -1,5 +1,6 @@
 from conveyor import Conveyor
 from etl_processor import ETLProcessor
+from metrics import get_all_metrics
 
 
 def main():
@@ -23,7 +24,12 @@ def main():
     )
     cnv.create_flows()
     # cnv.debug_info()
-    print('Total provider payments sum:', cnv.metric_total_provider_payment_sum())
+
+    # print('Total provider payments sum:', cnv.metric_total_provider_payment_sum())
+
+    get_all_metrics(cnv.payment_objs, cnv.active_providers)
+
+
 
 if __name__ == '__main__':
     main()
