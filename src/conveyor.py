@@ -91,7 +91,7 @@ class Conveyor:
         return skipped
 
     def create_flows(self) -> None:
-        print("STARTED")
+        print('Setting flows for payments...')
         
         start_time = time.time() * 1000
         
@@ -166,11 +166,11 @@ class Conveyor:
             
         end_time = time.time() * 1000
         delta_time = end_time - start_time
-        print(f'🔥💻😎🤩🍆🍆🍆🍆🍆 Program worked for {delta_time} ms')
+        print(f'Set all possible flows. Program worked for {delta_time:.3f} ms')
 
-        skipped: int = self.count_skipped_payments(payment_list = self.payment_objs)
-        print(f'Skipped payments: {skipped}\n')
-    
+        # skipped: int = self.count_skipped_payments(payment_list = self.payment_objs)
+        # print(f'Skipped payments: {skipped}\n')
+
     def debug_info(self) -> None:
         debug(f'Logging providers...', filepath='debugging_WW.txt')
         for provider_currency in self.active_providers.keys():
@@ -193,5 +193,3 @@ class Conveyor:
                 total_sum += provider.payments_sum
         
         return total_sum 
-
-        

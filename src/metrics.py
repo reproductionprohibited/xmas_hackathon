@@ -92,3 +92,15 @@ class Metrics:
         for provider in providers:
             provider_load_factor[provider.id] = provider.payments_sum / provider.limit_max_usd
         return provider_load_factor
+
+    @staticmethod
+    def total_providers_conversion(self, providers: List[Provider], payments: List[Payment]) -> float:
+        ...
+
+    @staticmethod
+    def profit(self, payments: List[Payment]) -> float:
+        return sum([payment.amount_usd - payment.comission for payment in payments])
+
+    @staticmethod
+    def system_uptime(self, providers: List[Provider], payments: List[Payment]) -> float:
+        ...
