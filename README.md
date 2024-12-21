@@ -18,11 +18,13 @@
 
 - Убедитесь, что вы в корне проекта в терминале
 
-- Пропишите: ``` docker-compose up --build -d ```
+- В папку src/files/csv положите необходимые csv файлы. Если названия отличаются от "ex_rates", "payments_1", "payments_2", "providers_1", "providers_2", то поменяйте их в main.py ТОЛЬКО в создании объекта типа ETLProcessor
 
-- Посмотрите либо в консоль Docker Desktop, либо пропишите в консоль ``` docker-compose logs ```
+- Пропишите в терминал: ``` docker-compose up --build -d ```
 
-- После того, как закончили работу с контейнером, пропишите в консоль ``` docker-compose down -v ```
+- Посмотрите либо в консоль Docker Desktop (logs), либо пропишите в терминал ``` docker-compose logs ```
+
+- После того, как закончили работу с контейнером, пропишите в терминал ``` docker-compose down -v ```
 
 ## Performance тесты
 
