@@ -38,11 +38,16 @@ class Provider:
             other.avg_time / 30,
         ]
         coeficients = [
-            -8,
+            -2,
             3,
             1.5,
             4,
         ]
+
+        coeficients_abs_sum = sum(abs(coef) for coef in coeficients)
+
+        normalized_coeficients = [coef / coeficients_abs_sum for coef in coeficients]
+
         if len(params_self) != len(coeficients) or len(params_other) != len(coeficients):
             print("Check lengths of arrays in comparator !!!")
             raise SystemExit
@@ -51,8 +56,8 @@ class Provider:
         sum_other = 0
 
         for i in range(len(coeficients)):
-            sum_self += params_self[i] * coeficients[i]
-            sum_other += params_other[i] * coeficients[i]
+            sum_self += params_self[i] * normalized_coeficients[i]
+            sum_other += params_other[i] * normalized_coeficients[i]
         return sum_self < sum_other
     
     @staticmethod
