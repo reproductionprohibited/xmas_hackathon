@@ -174,21 +174,21 @@ class Metrics:
                 providers_list.append(providers_dict[currency][id])
 
         print('\n>> Metrics <<')
-        print(f'Average total conversion (%): {Metrics.avg_total_conversion(payments) * 100:.5f}')
-        print(f'Average provided conversion (%): {Metrics.avg_provided_conversion(payments) * 100:.5f}')
-        print(f'Total penalty (USD): {Metrics.total_penalty(providers_list):.5f}')
-        print(f'Total profit (USD): {Metrics.total_profit(payments, providers_list):.5f}')
-        print(f'Total payment wait time (seconds): {Metrics.total_time(payments):.5f}')
-        print(f'Average payment wait time (seconds): {Metrics.avg_time(payments):.5f}')
+        print(f'Average total conversion (%): {Metrics.avg_total_conversion(payments) * 100:.2f}')
+        print(f'Average provided conversion (%): {Metrics.avg_provided_conversion(payments) * 100:.2f}')
+        print(f'Total penalty (USD): {Metrics.total_penalty(providers_list):.2f}')
+        print(f'Total profit (USD): {Metrics.total_profit(payments, providers_list):.2f}')
+        print(f'Total payment wait time (seconds): {Metrics.total_time(payments):.3f}')
+        print(f'Average payment wait time (seconds): {Metrics.avg_time(payments):.3f}')
 
         print('\n' + '-' * 25)
 
         print(f'Count of completed payments: {Metrics.count_of_completed_payments(payments)}')
-        print(f'Total amount of completed payments (USD): {Metrics.sum_amount_of_completed_payments_usd(payments):.5f}')
-        print(f'Average time of completed payments (seconds): {Metrics.avg_time_of_completed_payments_seconds(payments):.5f}')
-        print(f'Median amount of declined payments (USD): {Metrics.median_sum_amount_of_declined_payment_usd(payments):.5f}')
+        print(f'Total amount of completed payments (USD): {Metrics.sum_amount_of_completed_payments_usd(payments):.2f}')
+        print(f'Average time of completed payments (seconds): {Metrics.avg_time_of_completed_payments_seconds(payments):.3f}')
+        print(f'Median amount of declined payments (USD): {Metrics.median_sum_amount_of_declined_payment_usd(payments):.2f}')
         print(f'Count of first-payment declined users: {Metrics.cnt_first_payment_declined_users(payments)}')
-        print(f'Total amount of first-payment declined payments (USD): {Metrics.sum_amount_first_payment_declined_payments_usd(payments):.5f}')
+        print(f'Total amount of first-payment declined payments (USD): {Metrics.sum_amount_first_payment_declined_payments_usd(payments):.2f}')
 
         print('\n' + '-' * 25)
 
@@ -197,4 +197,4 @@ class Metrics:
         sorted_providers_by_loads.sort(key=lambda record: (record[1], record[0]))
 
         for provider_id, load_percentage in sorted_providers_by_loads:
-            print(f'ID: {' ' * (5 - len(str(provider_id))) + str(provider_id)} | Load: {load_percentage} %')
+            print(f'ID: {' ' * (5 - len(str(provider_id))) + str(provider_id)} | Load: {load_percentage:.2f} %')
