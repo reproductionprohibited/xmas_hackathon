@@ -33,8 +33,8 @@ def generate_output_csv(payments: List[Payment]) -> None:
 def main():
     print('Started working')
     etl_processor = ETLProcessor(
-        payments_filepath='./files/csv/payments_2.csv',
-        providers_filepath='./files/csv/providers_2.csv',
+        payments_filepath='./files/csv/payments_1.csv',
+        providers_filepath='./files/csv/providers_1.csv',
         ex_rates_filepath='./files/csv/ex_rates.csv',
     )
     

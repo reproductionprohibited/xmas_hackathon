@@ -135,7 +135,7 @@ class Metrics:
         profit = 0
         for payment in payments:
             if payment.flow:
-                profit += payment.amount_usd - payment.comission
+                profit += (payment.amount_usd - payment.comission) * payment.success_probability
                 
         return profit
 

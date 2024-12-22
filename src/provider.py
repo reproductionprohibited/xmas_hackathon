@@ -20,40 +20,40 @@ class Provider:
     payments_sum: float = 0.0
     version: int = 0
 
-    def __lt__(self, other):
-        # if max(0, self.limit_min_usd - self.payments_sum) == max(0, other.limit_min_usd - other.payments_sum):
-        #     return self.commission > other.commission
-        # return self.limit_min_usd - self.payments_sum < other.limit_min_usd - other.payments_sum
+    coeficients = [
+        -3.4294474688828527, 
+        0.014278492475952628, 
+        0.13466681312735318, 
+        0.4726135438995368,
+    ]
 
-        params_self = [
+    def get_value_for_comparasion(self) -> float:
+        params = [
             self.commission,
             min(1, self.payments_sum / self.limit_min_usd),
             self.payments_sum / self.limit_max_usd,
             self.avg_time / 30,
         ]
-        params_other = [
-            other.commission,
-            min(1, other.payments_sum / other.limit_min_usd),
-            other.payments_sum / other.limit_max_usd,
-            other.avg_time / 30,
-        ]
-        coeficients = [
-            -8,
-            3,
-            1.5,
-            4,
-        ]
-        if len(params_self) != len(coeficients) or len(params_other) != len(coeficients):
-            print("Check lengths of arrays in comparator !!!")
-            raise SystemExit
 
-        sum_self = 0
-        sum_other = 0
+        coeficients_abs_sum = sum(abs(coef) for coef in self.coeficients)
 
-        for i in range(len(coeficients)):
-            sum_self += params_self[i] * coeficients[i]
-            sum_other += params_other[i] * coeficients[i]
-        return sum_self < sum_other
+        normalized_coeficients = [coef / coeficients_abs_sum for coef in self.coeficients]
+
+        if max(params) > 1.5:
+            raise ValueError('Bad coefficients')
+
+        if len(params) != len(normalized_coeficients) or len(params) != len(normalized_coeficients):
+            raise ValueError('Check lengths of arrays in the comparator')
+
+        res = 0
+
+        for i in range(len(normalized_coeficients)):
+            res += params[i] * normalized_coeficients[i]
+
+        return res
+
+    def __lt__(self, other):
+        return self.get_value_for_comparasion() < other.get_value_for_comparasion()
     
     @staticmethod
     def from_series(information_series: pd.Series):
