@@ -92,6 +92,10 @@ class Conveyor:
 
     def create_flows(self) -> None:
         print('Setting flows for payments...')
+
+        # print(self.payments.shape)
+
+        expected_result = 0
         
         start_time = time.time() * 1000
         
@@ -156,6 +160,8 @@ class Conveyor:
                         new_payment_object.comission += expected_payment_sum * top_heap_provider.commission
                         expected_payment_sum -= expected_payment_sum * top_heap_provider.commission
 
+                        expected_result += expected_payment_sum
+
                         top_heap_provider.payments_sum += expected_payment_sum
                         new_payment_object.success_probability += current_probability
                         new_payment_object.flow.append(top_heap_provider.id)
@@ -167,6 +173,8 @@ class Conveyor:
         end_time = time.time() * 1000
         delta_time = end_time - start_time
         print(f'Set all possible flows. Program worked for {delta_time:.3f} ms')
+
+        print(f"expected result: {expected_result}")
 
         # skipped: int = self.count_skipped_payments(payment_list = self.payment_objs)
         # print(f'Skipped payments: {skipped}\n')
