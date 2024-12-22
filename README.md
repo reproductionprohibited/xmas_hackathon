@@ -34,8 +34,10 @@
 
 ### Проводились на Macbook Air M3 8/256
 
-СЮДА СКРИНЫ
+Файл payments_1 + providers_1 + ex_rates:
 
 ![performance test payments 1](_readme_screenshots/performance_payments_1.png)
+
+Файл payments_2 + providers_2 + ex_rates:
 
 ![performance test payments 2](_readme_screenshots/performance_payments_2.png)
