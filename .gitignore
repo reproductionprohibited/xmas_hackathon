@@ -171,3 +171,5 @@ cython_debug/
 .pypirc
 
 *.pkl
+
+/src/files/result
