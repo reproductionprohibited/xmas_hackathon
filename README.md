@@ -22,7 +22,11 @@
 
 - Пропишите в терминал: ``` docker-compose up --build -d ```
 
-- Посмотрите либо в консоль Docker Desktop (logs), либо пропишите в терминал ``` docker-compose logs ```
+- Зайдите в файлы в Докере, в папку src/files/result, и при помощи кнопки save скачайте файл с flow транзакций (дождитесь пока появится файл)
+
+- После того, как скачали файл, подождите секунд 30 и пропишите в терминал ``` docker-compose stop ```
+
+- Посмотрите либо в консоль Docker Desktop (logs), либо пропишите в терминал ``` docker-compose logs ```, чтобы посмотреть подсчитанные метрики и логи
 
 - После того, как закончили работу с контейнером, пропишите в терминал ``` docker-compose down -v ```
 
@@ -32,6 +36,6 @@
 
 СЮДА СКРИНЫ
 
-<!-- ![performance test payments 1](_readme_screenshots/performance_payments_1)
+![performance test payments 1](_readme_screenshots/performance_payments_1.png)
 
-![performance test payments_2](_readme_screenshots/performance_payments_2) -->
+![performance test payments 2](_readme_screenshots/performance_payments_2.png)

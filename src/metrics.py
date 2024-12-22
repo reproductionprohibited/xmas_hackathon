@@ -178,8 +178,7 @@ class Metrics:
         print(f'Average provided conversion (%): {Metrics.avg_provided_conversion(payments) * 100:.2f}')
         print(f'Total penalty (USD): {Metrics.total_penalty(providers_list):.2f}')
         print(f'Total profit (USD): {Metrics.total_profit(payments, providers_list):.2f}')
-        print(f'Total payment wait time (seconds): {Metrics.total_time(payments):.3f}')
-        print(f'Average payment wait time (seconds): {Metrics.avg_time(payments):.3f}')
+        print(f'Average payment completion (seconds): {Metrics.avg_time(payments):.3f}')
 
         print('\n' + '-' * 25)
 
