@@ -54,7 +54,7 @@ def main():
 
     Metrics.log_all_metrics(cnv.payment_objs, cnv.active_providers)
 
-    time.sleep(60)
+    time.sleep(30)
 
 if __name__ == '__main__':
     main()
