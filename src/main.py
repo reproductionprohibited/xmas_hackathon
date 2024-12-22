@@ -1,6 +1,8 @@
 from conveyor import Conveyor
 from etl_processor import ETLProcessor
-# from metrics import Metrics
+from metrics import Metrics
+
+from anneal import Anneal
 
 
 def main():
@@ -17,12 +19,32 @@ def main():
 
     print('Transformed files!')
 
-    for i in range(4):
-        cnv = Conveyor(
-            transformed_providers_filename='D:/GitHub/xmas_hackathon/src/files/pkl/providers_transformed.pkl',
-            transformed_payments_filename='D:/GitHub/xmas_hackathon/src/files/pkl/payments_transformed.pkl',
-        )
-        cnv.create_flows()
+    anneal = Anneal(4)
+
+    anneal.calculate_coef()
+
+    print(f"anneal worked: {anneal.best}: {anneal.best_list}")
+
+    # max_abs = 30
+    # step = 0.1
+
+    # max_sum = 0
+
+    # for c1 in range(-max_abs, 0):
+    #     for c2 in range(0, max_abs):
+    #         for c3 in range(0, max_abs):
+    #             for c4 in range(0, max_abs):
+    #                 cnv = Conveyor(
+    #                     transformed_providers_filename='D:/GitHub/xmas_hackathon/src/files/pkl/providers_transformed.pkl',
+    #                     transformed_payments_filename='D:/GitHub/xmas_hackathon/src/files/pkl/payments_transformed.pkl',
+    #                 )
+    #                 max_sum = max(max_sum, cnv.check_annealing([c1 / 10, c2 / 10, c3 / 10, c4 / 10]))
+
+    # cnv = Conveyor(
+    #     transformed_providers_filename='D:/GitHub/xmas_hackathon/src/files/pkl/providers_transformed.pkl',
+    #     transformed_payments_filename='D:/GitHub/xmas_hackathon/src/files/pkl/payments_transformed.pkl',
+    # )
+    # cnv.create_flows()
 
     # Metrics.log_all_metrics(cnv.payment_objs, cnv.active_providers)
 

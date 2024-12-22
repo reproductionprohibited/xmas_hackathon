@@ -197,4 +197,4 @@ class Metrics:
         sorted_providers_by_loads.sort(key=lambda record: (record[1], record[0]))
 
         for provider_id, load_percentage in sorted_providers_by_loads:
-            print(f'ID: {' ' * (5 - len(str(provider_id))) + str(provider_id)} | Load: {load_percentage:.2f} %')
+            print(f"ID: {' ' * (5 - len(str(provider_id))) + str(provider_id)} | Load: {load_percentage:.2f} %")

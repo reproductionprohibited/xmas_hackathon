@@ -53,6 +53,6 @@ class ETLProcessor:
         self.payments.drop(labels=['index', 'amount'], axis=1, inplace=True)
 
     def save_pkl_files(self, save_to: str = 'D:/GitHub/xmas_hackathon/src/files/pkl'):
-        self.payments = self.payments.sample(500)
+        # self.payments = self.payments.sample(500)
         self.payments.to_pickle(path=f'{save_to}/payments_transformed.pkl')
         self.providers.to_pickle(path=f'{save_to}/providers_transformed.pkl')

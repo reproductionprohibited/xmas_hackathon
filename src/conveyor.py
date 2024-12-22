@@ -176,8 +176,101 @@ class Conveyor:
 
         print(f"expected result: {expected_result}")
 
+        skipped: int = self.count_skipped_payments(payment_list = self.payment_objs)
+        print(f'Skipped payments: {skipped}\n')
+    
+    def check_annealing(self, coefs) -> float:
+        # print('Setting flows for payments...')
+
+        # print(self.payments.shape)
+
+        expected_result = 0
+        
+        start_time = time.time() * 1000
+        
+        provider_ptr, payment_ptr = 0, 0
+
+        while payment_ptr < self.payments.shape[0]:
+            payment_series: pd.Series = self.payments.iloc[payment_ptr]
+            new_payment_object: Payment = Payment(
+                id = payment_series['payment'],
+                timestamp = payment_series['timestamp'],
+                amount_usd = payment_series['amount_usd'],
+                card_token = payment_series['cardToken'],
+                currency = payment_series['currency'],
+            )
+            payment_ptr += 1
+
+            while new_payment_object.timestamp >= self.providers.iloc[provider_ptr]['timestamp']:
+                provider_series: pd.Series = self.providers.iloc[provider_ptr]
+                provider_currency = provider_series['currency']
+                provider_id = provider_series['id']
+
+                existing_provider = self.get_provider_by_id_and_currency(currency = provider_currency, id = provider_id)
+                if existing_provider is None:
+                    # Provider with this currency and id does not exist
+                    new_provider_object: Provider = Provider.from_series(information_series = provider_series)
+                    new_provider_object.coeficients = coefs
+
+                    if provider_currency not in self.active_providers:
+                        self.active_providers[provider_currency] = {provider_id: new_provider_object}
+                        self.currency_providers_heapmap[provider_currency] = MinProviderHeap()
+                        self.currency_providers_heapmap[provider_currency].push(new_provider_object)
+                    else:
+                        self.active_providers[provider_currency][provider_id] = new_provider_object
+                        self.currency_providers_heapmap[provider_currency].push(new_provider_object)
+                else:
+                    # Provider with this currency and id does not exists
+                    self.update_provider_info(provider_data_series = provider_series)
+
+                provider_ptr += 1
+
+            buffer: List[Provider] = []
+            self.payment_objs.append(new_payment_object)
+            currency_provider_heap: MinProviderHeap = self.currency_providers_heapmap.get(new_payment_object.currency)
+            if currency_provider_heap is None:
+                payment_ptr += 1
+                continue
+
+            if currency_provider_heap.size() > 0:
+                
+                while new_payment_object.success_probability < BOUND_PAYMENT_SUCCESS_PROBABILITY:
+                    top_heap_provider: Provider = currency_provider_heap.pop()
+                    if top_heap_provider is None:
+                        break
+
+                    top_heap_provider = self.active_providers[top_heap_provider.currency][top_heap_provider.id]
+                    buffer.append(top_heap_provider)
+
+                    if (
+                        top_heap_provider.payments_sum + new_payment_object.amount_usd <= top_heap_provider.limit_max_usd
+                        and top_heap_provider.min_sum_usd <= new_payment_object.amount_usd <= top_heap_provider.max_sum_usd
+                    ):
+                        current_probability = (1 - new_payment_object.success_probability) * top_heap_provider.conversion
+                        expected_payment_sum = new_payment_object.amount_usd * current_probability
+                        new_payment_object.comission += expected_payment_sum * top_heap_provider.commission
+                        expected_payment_sum -= expected_payment_sum * top_heap_provider.commission
+
+                        expected_result += expected_payment_sum
+
+                        top_heap_provider.payments_sum += expected_payment_sum
+                        new_payment_object.success_probability += current_probability
+                        new_payment_object.flow.append(top_heap_provider.id)
+                        new_payment_object.operation_time += top_heap_provider.avg_time * current_probability
+
+                for buffered_provider in buffer:
+                    self.currency_providers_heapmap[buffered_provider.currency].push(buffered_provider)
+            
+        end_time = time.time() * 1000
+        delta_time = end_time - start_time
+        # print(f'Set all possible flows. Program worked for {delta_time:.3f} ms')
+
+        # print(f"expected result: {expected_result}")
+
         # skipped: int = self.count_skipped_payments(payment_list = self.payment_objs)
         # print(f'Skipped payments: {skipped}\n')
+
+        return expected_result
 
     def debug_info(self) -> None:
         debug(f'Logging providers...', filepath='debugging_WW.txt')
